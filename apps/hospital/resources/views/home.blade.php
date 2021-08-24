@@ -13,13 +13,6 @@
                             {{ session('status') }}
                         </div>
                     @endif
-
-                    @can('register-patient')
-                    @endcan
-
-                    @can('see-drugs')
-                    @endcan
-
                 </div>
             </div>
         </div>

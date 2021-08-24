@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Api;
 
 use App\Actions\PrescriptionAction;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 
 class PrescriptionsController extends Controller
 {
@@ -18,11 +17,13 @@ class PrescriptionsController extends Controller
         $this->prescriptionAction = $prescriptionAction;
     }
 
-    public function index() {
-        return $this->prescriptionAction->getPrescriptionsData();
+    public function index(): \Illuminate\Http\JsonResponse
+    {
+        return $this->prescriptionAction->getJsonPrescriptionsData();
     }
 
-    public function indexByPatient($patientId) {
-        return $this->prescriptionAction->getPatientPrescriptionsData($patientId);
+    public function indexByPatient($patientId): \Illuminate\Http\JsonResponse
+    {
+        return $this->prescriptionAction->getJsonPatientPrescriptionsData($patientId);
     }
 }

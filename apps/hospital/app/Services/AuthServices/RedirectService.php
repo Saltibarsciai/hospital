@@ -19,4 +19,17 @@ class RedirectService
                 return null;
         }
     }
+
+    public function dashboardName($user): ?string
+    {
+        switch ($user->role_id) {
+            case config('roles.receptionist'):
+                return 'receptionist-dashboard';
+            case config('roles.doctor'):
+                return 'doctor-dashboard';
+            default:
+                Log::channel('hospital')->alert('Role id mismatch in dashboardName()');
+                return null;
+        }
+    }
 }

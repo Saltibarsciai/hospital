@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 class Appointment extends Model
@@ -11,11 +10,12 @@ class Appointment extends Model
         'appointment_date', 'patient_id'
     ];
 
-    public function prescriptions()
+    public function prescriptions(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
         return $this->belongsToMany(Prescription::class);
     }
-    public function patient()
+
+    public function patient(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Patient::class);
     }

@@ -17,7 +17,7 @@ class ReservationController extends Controller
         $this->reservationAction = $reservationAction;
     }
 
-    public function create(ReservationPostRequest $request)
+    public function create(ReservationPostRequest $request): \Illuminate\Http\JsonResponse
     {
         $request->validated();
         return $this->reservationAction->reserveIfApplicable($request);

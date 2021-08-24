@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Actions\AppointmentAction;
 use App\Http\Requests\AppointmentPostRequest;
 use App\Http\Requests\AppointmentPutRequest;
-use Illuminate\Http\Request;
 
 class AppointmentController extends Controller
 {
@@ -19,7 +18,7 @@ class AppointmentController extends Controller
         $this->appointmentAction = $appointmentAction;
     }
 
-    public function create(AppointmentPostRequest $request)
+    public function create(AppointmentPostRequest $request): \Illuminate\Http\RedirectResponse
     {
         $request->validated();
         $this->appointmentAction->createAppointment($request);
@@ -36,7 +35,7 @@ class AppointmentController extends Controller
         return view('appointment.index', $this->appointmentAction->getAppointmentsData());
     }
 
-    public function update(AppointmentPutRequest $request, $id)
+    public function update(AppointmentPutRequest $request, $id): \Illuminate\Http\RedirectResponse
     {
         $request->validated();
         $this->appointmentAction->updateAppointment($request, $id);
@@ -48,7 +47,7 @@ class AppointmentController extends Controller
         return view('appointment.update', $this->appointmentAction->getAppointmentData($id));
     }
 
-    public function delete($id)
+    public function delete($id): \Illuminate\Http\RedirectResponse
     {
         $this->appointmentAction->deleteAppointment($id);
         return back()->with('success','Appointment deleted successfully!');

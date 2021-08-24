@@ -6,7 +6,6 @@ use App\Http\Requests\ReservationPostRequest;
 use App\Repository\PatientRepository\PatientRepositoryInterface;
 use App\Repository\ReservationRepository\ReservationRepositoryInterface;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class ReservationAction
@@ -31,7 +30,6 @@ class ReservationAction
     public function reserveIfApplicable(ReservationPostRequest $request): JsonResponse
     {
         $patient = $this->patientRepository->whereFirst('email', $request->email);
-
         if($patient === null) {
             return response()->json(['status' => 400, 'message' => 'New patient is not in database yet']);
         }

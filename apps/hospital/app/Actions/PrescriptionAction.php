@@ -35,15 +35,22 @@ class PrescriptionAction
         $this->drugsRepository = $drugsRepository;
     }
 
-    public function getPrescriptionsData()
+    public function getJsonPrescriptionsData(): \Illuminate\Http\JsonResponse
     {
         return response()->json($this->prescriptionRepository->getPrescriptions());
     }
-    public function getPatientPrescriptionsData($id)
+    public function getJsonPatientPrescriptionsData($id): \Illuminate\Http\JsonResponse
     {
         return response()->json($this->prescriptionRepository->getPatientPrescriptions($id));
     }
-    public function createByPatientUiData($id)
+    public function getPatientPrescriptionsData($id): array
+    {
+        return [
+            'patient' => $this->patientRepository->whereFirst('id', $id),
+            'paginatedPrescriptions' => $this->prescriptionRepository->getPatientPaginatedPrescriptions($id)
+        ];
+    }
+    public function createByPatientUiData($id): array
     {
         return [
             'drugs' => $this->drugsRepository->getPaginated(),
@@ -57,12 +64,12 @@ class PrescriptionAction
     }
     public function delete($id)
     {
-
         $prescription = $this->prescriptionRepository->first($id);
 
         if($prescription->created_at->diffInMinutes(Carbon::now(), false) > 60) {
             return back()->with('error', '1 hour has already past, you can\'t delete');
         }
-        return $this->prescriptionRepository->delete($id);
+        $this->prescriptionRepository->delete($id);
+        return back()->with('success','Prescription deleted successfully!');
     }
 }

@@ -10,16 +10,16 @@ class Patient extends Model
         'name', 'email'
     ];
 
-    public function users()
+    public function users(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
         return $this->belongsToMany(User::class);
     }
-    public function drugs()
+    public function drugs(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
         return $this->belongsToMany(Drug::class);
     }
 
-    public function appointments()
+    public function appointments(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(Appointment::class);
     }

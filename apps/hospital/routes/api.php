@@ -14,12 +14,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
-
-Route::group(['prefix' => 'prescriptions/v1/'], function () {
+Route::group(['prefix' => 'prescriptions/v1'], function () {
     Route::get('/', 'Api\PrescriptionsController@index')
         ->name('api.prescriptions.index');
     Route::get('/by-patient/{id}', 'Api\PrescriptionsController@indexByPatient')

@@ -3,9 +3,8 @@
 namespace App\Models;
 
 use App\Notifications\ResetHospital;
-use Illuminate\Auth\Notifications\ResetPassword as ResetPasswordNotification;
+use App\Services\AuthServices\RedirectService;
 use Illuminate\Auth\Passwords\CanResetPassword;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -46,46 +45,29 @@ class User extends Authenticatable
         $this->notify(new ResetHospital($token));
     }
 
-    public function role()
+    public function role(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Role::class);
     }
 
-    public function patients()
+    public function patients(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
         return $this->belongsToMany(Role::class);
     }
 
-    public function isDoctor()
+    public function isDoctor(): bool
     {
         return $this->role_id === config('roles.doctor');
     }
 
-    public function isReceptionist()
+    public function isReceptionist(): bool
     {
         return $this->role_id === config('roles.receptionist');
     }
 
-//    public function userable()
-//    {
-//        return $this->morphTo();
-//    }
-//    public function doctor()
-//    {
-//        return $this->hasOne(Doctor::class);
-//    }
-//    public function patient()
-//    {
-//        return $this->hasOne(Patient::class);
-//    }
-
-
-    #public function user()
-    #{
-    #    return $this->belongsTo(User::class);
-    #}
-    #public function users()
-    #{
-    #    return $this->hasMany(User::class);
-    #}
+    public function dashboardName()
+    {
+        $redirectService = resolve(RedirectService::class);
+        return $redirectService->dashboardName($this);
+    }
 }

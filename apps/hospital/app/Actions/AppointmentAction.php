@@ -26,7 +26,8 @@ class AppointmentAction
         return $this->appointmentRepository->create($request);
     }
 
-    public function getAppointmentsData() {
+    public function getAppointmentsData(): array
+    {
         return [
             'appointments' => $this->appointmentRepository->getAll()
         ];

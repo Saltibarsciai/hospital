@@ -10,7 +10,7 @@ class Drug extends Model
         'name'
     ];
 
-    public function drugs()
+    public function drugs(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
         return $this->belongsToMany(Prescription::class);
     }

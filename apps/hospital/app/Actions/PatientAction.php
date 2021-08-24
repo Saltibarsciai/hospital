@@ -16,7 +16,7 @@ class PatientAction
         $this->patientRepository = $patientRepository;
     }
 
-    public function getPatientsData()
+    public function getPatientsData(): array
     {
         return [
             'paginatedPatients' => $this->patientRepository->getPaginatedPatients()

@@ -10,12 +10,11 @@ class Prescription extends Model
         'patient_id', 'instructions'
     ];
 
-
-    public function patient()
+    public function patient(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Patient::class);
     }
-    public function drugs()
+    public function drugs(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
         return $this->belongsToMany(Drug::class);
     }

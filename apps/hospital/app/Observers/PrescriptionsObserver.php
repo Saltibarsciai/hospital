@@ -16,7 +16,9 @@ class PrescriptionsObserver
      */
     public function updated(Prescription $prescription)
     {
-        Mail::to($prescription->patient->email)->send(new PrescriptionMail($prescription->patient->name, $prescription->instructions, $prescription->drugs));
+        Mail::to($prescription->patient->email)->send(
+            new PrescriptionMail($prescription->patient->name, $prescription->instructions, $prescription->drugs)
+        );
     }
 
 }

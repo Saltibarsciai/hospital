@@ -21,17 +21,17 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::group(['prefix' => 'dashboard'], function () {
-    Route::group(['prefix' => 'doctor', 'middleware' => ['auth', 'doctor']], function () {
+Route::group(['prefix' => 'dashboard', 'middleware' => ['auth']], function () {
+    Route::group(['prefix' => 'doctor', 'middleware' => ['doctor']], function () {
         Route::get('/', 'DoctorController@index')
             ->name('doctor-dashboard');
     });
-    Route::group(['prefix' => 'receptionist', 'middleware' => ['auth', 'receptionist']], function () {
+    Route::group(['prefix' => 'receptionist', 'middleware' => ['receptionist']], function () {
         Route::get('/', 'ReceptionistController@index')
             ->name('receptionist-dashboard');
     });
 
-    Route::group(['prefix' => 'appointment', 'middleware' => ['auth', 'receptionist']], function () {
+    Route::group(['prefix' => 'appointment', 'middleware' => ['receptionist']], function () {
         Route::get('/', 'AppointmentController@index')
             ->name('appointment.index');
         Route::post('create', 'AppointmentController@create')
@@ -46,27 +46,17 @@ Route::group(['prefix' => 'dashboard'], function () {
             ->name('appointment.create.ui');
     });
 
-    Route::group(['prefix' => 'reservation', 'middleware' => ['auth', 'receptionist']], function () {
+    Route::group(['prefix' => 'reservation', 'middleware' => ['receptionist']], function () {
         Route::post('/', 'ReservationController@create')
             ->name('reservation.create');
     });
 
-    Route::group(['prefix' => 'patients', 'middleware' => ['auth', 'doctor']], function () {
+    Route::group(['prefix' => 'patients', 'middleware' => ['doctor']], function () {
         Route::get('/', 'PatientController@index')
             ->name('patients.index');
-//        Route::post('create', 'AppointmentController@create')
-//            ->name('appointment.create');
-//        Route::put('{id}', 'AppointmentController@update')
-//            ->name('appointment.update');
-//        Route::get('delete/{id}', 'AppointmentController@delete')
-//            ->name('appointment.delete');
-//        Route::get('update/{id}', 'AppointmentController@updateUi')
-//            ->name('appointment.update.ui');
-//        Route::get('create', 'AppointmentController@createUi')
-//            ->name('appointment.create.ui');
     });
 
-    Route::group(['prefix' => 'prescriptions', 'middleware' => ['auth', 'doctor']], function () {
+    Route::group(['prefix' => 'prescriptions', 'middleware' => ['doctor']], function () {
         Route::get('/', 'PrescriptionController@index')
             ->name('prescriptions.index');
         Route::get('/by-patient/{id}', 'PrescriptionController@indexByPatient')

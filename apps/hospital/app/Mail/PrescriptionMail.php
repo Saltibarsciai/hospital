@@ -3,7 +3,6 @@
 namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
@@ -32,7 +31,7 @@ class PrescriptionMail extends Mailable
      *
      * @return $this
      */
-    public function build()
+    public function build(): PrescriptionMail
     {
         return $this->view('emails.prescription', [
             'name' => $this->name,

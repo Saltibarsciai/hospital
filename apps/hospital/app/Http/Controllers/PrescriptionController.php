@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Actions\PrescriptionAction;
 use App\Http\Requests\PresciptionPostRequest;
-use Illuminate\Http\Request;
 
 class PrescriptionController extends Controller
 {
@@ -30,15 +29,15 @@ class PrescriptionController extends Controller
     {
         return view('prescriptionsByPatient.create', $this->prescriptionAction->createByPatientUiData($patientId));
     }
-    public function createByPatient(PresciptionPostRequest $request)
+    public function createByPatient(PresciptionPostRequest $request): \Illuminate\Http\RedirectResponse
     {
         $this->prescriptionAction->makePrescriptionForPatient($request);
         return back()->with('success','Prescription created successfully!');
     }
 
-    public function delete($id)
+    public function delete($id): \Illuminate\Http\RedirectResponse
     {
-        $this->prescriptionAction->delete($id);
-        return back()->with('success','Prescription deleted successfully!');
+
+        return $this->prescriptionAction->delete($id);
     }
 }
