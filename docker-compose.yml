@@ -1,0 +1,86 @@
+version: '3'
+services:
+
+  webserver:
+    image: nginx:alpine
+    container_name: webserver
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./apps/hospital/:/var/www/hospital
+      - ./apps/pharmacy/:/var/www/pharmacy
+      - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./docker/nginx/sites/:/etc/nginx/conf.d/
+      - ./docker/nginx/ssl/:/etc/ssl/
+    networks:
+      - app-network
+
+  hospital:
+    container_name: hospital
+    build:
+      context: apps/hospital
+      dockerfile: Dockerfile
+#    image: digitalocean.com/php
+    restart: unless-stopped
+    tty: true
+    environment:
+      SERVICE_NAME: hospital
+      SERVICE_TAGS: dev
+    working_dir: /var/www/hospital
+    volumes:
+      - ./apps/hospital/:/var/www/hospital
+      - ./docker/php/local.ini:/usr/local/etc/php/conf.d/local.ini
+#    command: npm run dev
+    networks:
+      - app-network
+
+  pharmacy:
+    container_name: pharmacy
+    build:
+      context: apps/pharmacy
+      dockerfile: Dockerfile
+#    image: digitalocean.com/php
+    restart: unless-stopped
+    tty: true
+    environment:
+      SERVICE_NAME: pharmacy
+      SERVICE_TAGS: dev
+    working_dir: /var/www/pharmacy
+    volumes:
+      - ./apps/pharmacy/:/var/www/pharmacy
+      - ./docker/php/local.ini:/usr/local/etc/php/conf.d/local.ini
+#      - ./apps/pharmacy/node_modules:/var/www/pharmacy/node_modules
+    networks:
+      - app-network
+
+  db:
+#    image: mysql:8.0
+    build:
+      dockerfile: ./docker/mysql/Dockerfile
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "3306:3306"
+    command: --init-file /etc/mysql/init.sql
+    environment:
+      MYSQL_DATABASE: 'hospital'
+      MYSQL_ROOT_PASSWORD: 'rootpass'
+      MYSQL_USER: 'user'
+      MYSQL_PASSWORD: 'pass'
+    volumes:
+      - dbdata:/var/lib/mysql/
+      - ./docker/mysql/init.sql:/etc/mysql/init.sql
+      - ./docker/mysql/my.cnf:/etc/mysql/my.cnf
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  dbdata:
+    driver: local
