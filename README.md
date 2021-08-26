@@ -1,5 +1,5 @@
 
-#API
+## API
 
 https://hospital.test/api/prescriptions/v1/patient/1
 
@@ -9,7 +9,7 @@ https://hospital.test/api/prescriptions/v1/
 
 gives all prescriptions
 
-##WEB
+## WEB
 
 https://hospital.test/
 
