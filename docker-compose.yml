@@ -1,6 +1,5 @@
 version: '3'
 services:
-
   webserver:
     image: nginx:alpine
     container_name: webserver
@@ -11,53 +10,35 @@ services:
       - "443:443"
     volumes:
       - ./apps/hospital/:/var/www/hospital
-      - ./apps/pharmacy/:/var/www/pharmacy
       - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf
       - ./docker/nginx/sites/:/etc/nginx/conf.d/
       - ./docker/nginx/ssl/:/etc/ssl/
     networks:
       - app-network
+    depends_on:
+      - hospital
 
   hospital:
     container_name: hospital
     build:
       context: apps/hospital
       dockerfile: Dockerfile
-#    image: digitalocean.com/php
     restart: unless-stopped
     tty: true
     environment:
       SERVICE_NAME: hospital
       SERVICE_TAGS: dev
     working_dir: /var/www/hospital
+    stdin_open: true
     volumes:
       - ./apps/hospital/:/var/www/hospital
       - ./docker/php/local.ini:/usr/local/etc/php/conf.d/local.ini
-#    command: npm run dev
     networks:
       - app-network
-
-  pharmacy:
-    container_name: pharmacy
-    build:
-      context: apps/pharmacy
-      dockerfile: Dockerfile
-#    image: digitalocean.com/php
-    restart: unless-stopped
-    tty: true
-    environment:
-      SERVICE_NAME: pharmacy
-      SERVICE_TAGS: dev
-    working_dir: /var/www/pharmacy
-    volumes:
-      - ./apps/pharmacy/:/var/www/pharmacy
-      - ./docker/php/local.ini:/usr/local/etc/php/conf.d/local.ini
-#      - ./apps/pharmacy/node_modules:/var/www/pharmacy/node_modules
-    networks:
-      - app-network
+    depends_on:
+      - db
 
   db:
-#    image: mysql:8.0
     build:
       dockerfile: ./docker/mysql/Dockerfile
     restart: unless-stopped

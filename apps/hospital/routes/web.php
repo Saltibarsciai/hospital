@@ -59,14 +59,16 @@ Route::group(['prefix' => 'dashboard', 'middleware' => ['auth']], function () {
     Route::group(['prefix' => 'prescriptions', 'middleware' => ['doctor']], function () {
         Route::get('/', 'PrescriptionController@index')
             ->name('prescriptions.index');
-        Route::get('/by-patient/{id}', 'PrescriptionController@indexByPatient')
-            ->name('prescriptions.indexByPatient');
-        Route::get('/by-patient/create/{id}', 'PrescriptionController@createByPatientUi')
-            ->name('prescriptions.createByPatient.ui');
-        Route::post('/by-patient/create', 'PrescriptionController@createByPatient')
-            ->name('prescriptions.createByPatient');
-        Route::get('/by-patient/delete/{id}', 'PrescriptionController@delete')
-            ->name('prescriptions.delete');
+        Route::group(['prefix' => 'patient'], function () {
+            Route::get('/{id}', 'PrescriptionController@indexByPatient')
+                ->name('prescriptions.indexByPatient');
+            Route::get('create/{id}', 'PrescriptionController@createByPatientUi')
+                ->name('prescriptions.createByPatient.ui');
+            Route::post('create', 'PrescriptionController@createByPatient')
+                ->name('prescriptions.createByPatient');
+            Route::get('delete/{id}', 'PrescriptionController@delete')
+                ->name('prescriptions.delete');
+        });
     });
 });
 

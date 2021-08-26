@@ -1,6 +1,7 @@
-##API
 
-https://hospital.test/api/prescriptions/v1/by-patient/1
+#API
+
+https://hospital.test/api/prescriptions/v1/patient/1
 
 gives prescriptions by patient
 
@@ -13,15 +14,17 @@ gives all prescriptions
 https://hospital.test/
 
 
-##INSTALATION
-
-prerequisites:
+##prerequisites:
 
 - Docker
 
+##INSTALATION
+
 Steps
 
-- docker-compose up -d
+- docker-compose up -d && install.sh
+
+- If you're on windows you can execute vhosts.bat as admin, otherwise change hosts file to contain `127.0.0.1 hospital.test`
 
 ## Task
 
