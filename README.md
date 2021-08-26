@@ -1,5 +1,5 @@
 
-#API
+## API
 
 https://hospital.test/api/prescriptions/v1/patient/1
 
@@ -9,16 +9,16 @@ https://hospital.test/api/prescriptions/v1/
 
 gives all prescriptions
 
-##WEB
+## WEB
 
 https://hospital.test/
 
 
-##prerequisites:
+## PREREQUISITES:
 
 - Docker
 
-##INSTALATION
+## INSTALATION
 
 Steps
 
@@ -32,17 +32,17 @@ General tasks:
 
 ● Ability for users to:
 
-○ Register
+  ○ Register
 
-○ Login
+  ○ Login
 
-○ Password reset
+  ○ Password reset
 
 ● Receptionists can register patients to appointment, change the time of an
 
 appointment or cancel them.
 
-○ appointments should be reserved if one receptionist is registering a patient
+  ○ appointments should be reserved if one receptionist is registering a patient
 
 already.
 
@@ -50,9 +50,9 @@ already.
 
 ● Doctor should be able to see the list of prescriptions (paginated)
 
-○ Doctors can create, view and cancel prescriptions.
+  ○ Doctors can create, view and cancel prescriptions.
 
-○ Prescription can be canceled until 1 hour after being created.
+  ○ Prescription can be canceled until 1 hour after being created.
 
 ● Patients should receive an email about prescriptions assigned.
 
